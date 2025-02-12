@@ -8,13 +8,21 @@ Step 2: Configuration in docker-compose.yml and .env files
 
 1) In the backend/.env file, set your own values for the following paramaters : MYSQL_ROOT_PASSWORD , MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD
 
-2) Modify DATABASE_URL like this : DATABASE_URL="mysql://MYSQL_USER:MYSQL_PASSWORD@127.0.0.1:3306/MYSQL_DATABASE?serverVersion=8.0.32&charset=utf8mb4". Of course, instead of MYSQL_USER, you will write the values you set earlier.
+2) Modify DATABASE_URL like this :
+  
+ DATABASE_URL="mysql://MYSQL_USER:MYSQL_PASSWORD@127.0.0.1:3306/MYSQL_DATABASE?serverVersion=8.0.32&charset=utf8mb4".
+
+ Of course, instead of MYSQL_USER, you will write the values you set earlier.
    
 3) Copy the file .backend/.env in local : cp .env .env.local
    
 4) In the docker-compose.yml file , replace "${MYSQL_ROOT_PASSWORD}", "${MYSQL_DATABASE}", "${MYSQL_USER}", "${MYSQL_PASSWORD}" by the values of this parameter you set in the backend/.env file
 
-Step 3: Set up of the Docker containers 
+Step 3: Install the dependencies of the Symfony project 
+
+In the console, in the backend folder, type the following command: composer install 
+
+Step 4: Set up of the Docker containers 
 
 In the console, at the root of the project , type "docker-compose build" and then "docker-compose up -d"
 
@@ -23,17 +31,17 @@ Symfony : http://localhost:8080 ;
 PHPMyAdmin : http://localhost:8081 ;  
 MySQL will be accessible at port 3307
 
-Step 4: Create the database :
+Step 5: Create the database :
 
 Type docker-compose exec php bin/console doctrine:database:create
 
-Step 5 : Making migrations :
+Step 6 : Making migrations :
 
 Type docker-compose exec php bin/console make:migration
 
 Type docker-compose exec php bin/console doctrine:migrations:migrate
 
-Step 6: Loading the fixtures
+Step 7: Loading the fixtures
 
 Type docker-compose exec php bin/console doctrine:fixtures:load
 
