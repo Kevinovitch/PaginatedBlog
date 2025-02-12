@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Access denied{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">Access denied</h4>
+            <p>{{ message }}</p>
+            <hr>
+            <p class="mb-0">
+                <a href="{{ path('article_index') }}" class="btn btn-outline-danger">Back to the list</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}

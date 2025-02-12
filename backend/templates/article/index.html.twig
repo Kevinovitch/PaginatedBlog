@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="d-inline">List of articles</h1>
+                {% if app.user %}
+                    <span class="ms-3">Logged in as {{ app.user.email }}</span>
+                {% endif %}
+
+            </div>
+            <div>
+                {% if app.user %}
+                    <a href="{{ path('article_new') }}" class="btn btn-primary">Create new article</a>
+                    <a href="{{ path('app_profile') }}" class="btn btn-info">Profile</a>
+                    <a href="{{ path('app_logout') }}" class="btn btn-secondary">Logout</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="btn btn-primary">Login</a>
+                    <a href="{{ path('app_register') }}" class="btn btn-primary">Register</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} text-center my-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ path('article_show', {slug: article.slug}) }}" class="text-decoration-none">
+                                    {{ article.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text">{{ article.content|slice(0, 100) }}...</p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    Par {{ article.author.email }} -
+                                    Tags:
+                                    {% for tag in article.tags %}
+                                        <span class="badge bg-secondary">{{ tag.name }}</span>
+                                    {% endfor %}
+                                </small>
+                            </p>
+
+                            <div class="btn-group">
+                                <a href="{{ path('article_show', {slug: article.slug}) }}" class="btn btn-primary btn-sm">
+                                    Read more
+                                </a>
+                                {% if app.user and article.author == app.user %}
+                                    <a href="{{ path('article_edit', {id: article.id}) }}" class="btn btn-warning btn-sm">
+                                        Edit
+                                    </a>
+                                    <form method="post" action="{{ path('article_delete', {id: article.id}) }}"
+                                          style="display: inline-block;"
+                                          onsubmit="return confirm('Are you sure you want to delete this article?');">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="navigation d-flex justify-content-center mt-4">
+            {{ knp_pagination_render(articles, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

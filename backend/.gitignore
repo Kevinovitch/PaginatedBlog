@@ -1,0 +1,16 @@
+#  Symfony Specific files
+/var/
+/vendor/
+/node_modules/
+/.env.dev
+/.env.local
+/.env.*.local
+/public/bundles/
+/config/secrets/prod/
+
+# Fichiers spécifiques à Docker
+docker-compose.override.yml
+.docker/
+*.log
+**/cache/
+**/sessions/
