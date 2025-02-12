@@ -30,8 +30,10 @@ Type docker-compose exec php bin/console doctrine:database:create
 Step 5 : Making migrations :
 
 Type docker-compose exec php bin/console make:migration
+
 Type docker-compose exec php bin/console doctrine:migrations:migrate
 
-Step 6: Charger les données de test (fixtures)
+Step 6: Loading the fixtures
+
 Type docker-compose exec php bin/console doctrine:fixtures:load
 
